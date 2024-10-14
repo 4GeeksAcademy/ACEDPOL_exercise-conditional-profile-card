@@ -2,7 +2,7 @@ import "../style/index.css";
 
 /**
  *  EDIT ONLY INSIDE THIS RENDER FUNCTION
- *  This function is called every time the user changes types or changes any input
+ *  This function is called every time the user 'changes types or changes any input'
  * 
     {
         includeCover: true, // if includeCover is true the algorithm should show the cover image
