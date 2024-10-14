@@ -4,9 +4,11 @@ import "../style/index.css";
  *  EDIT ONLY INSIDE THIS RENDER FUNCTION
  *  This function is called every time the user 'changes types or changes any input'
  * 
+ * console.log(window.variables);
     {
         includeCover: true,   // if includeCover is true the algorithm should show the cover image
         background: "https:,  // images.unsplash.com/photo-1511974035430-5de47d3b95da", // this is the image's url that will be used as a background for the profile cover
+        randomCover: null,    // preselected cover backgrounds
         avatarURL: "https:,   // randomuser.me/api/portraits/women/42.jpg", // this is the url for the profile avatar
         randomAvatar: null,   // preselected posibles images
         socialMediaPosition: "right", // social media bar position (left or right)
@@ -23,15 +25,22 @@ import "../style/index.css";
         city: null
     }
  */
+
 function render(variables = {}) {
   console.log("These are the current variables: ", variables); // print on the console
   // here we ask the logical questions to make decisions on how to build the html
   // if includeCover==false then we reset the cover code without the <img> tag to make the cover transparent.
-  let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
-  if (variables.includeCover == false) {
-    console.log(`${variables.city}`);
-    cover = "<div class='cover'></div>";
+
+  let background = `${variables.background}`;
+  if (variables.background === null) {
+    background = `${variables.randomCover}`;
+    if (variables.randomCover === null)
+      background =
+        "https://images.unsplash.com/photo-1511974035430-5de47d3b95da";
   }
+
+  let cover = `<div class="cover"><img src="${background}" /></div>`;
+  if (variables.includeCover == false) cover = "<div class='cover'></div>";
 
   // ---
 
@@ -121,7 +130,8 @@ window.onload = function() {
     // if includeCover is true the algorithm should show the cover image
     includeCover: true,
     // this is the image's url that will be used as a background for the profile cover
-    background: "https://images.unsplash.com/photo-1511974035430-5de47d3b95da",
+    background: null,
+    randomCover: null,
     // this is the url for the profile avatar
     avatarURL: null,
     randomAvatar: null,
@@ -141,7 +151,7 @@ window.onload = function() {
   render(window.variables); // render the card for the first time
 
   document.querySelectorAll(".picker").forEach(function(elm) {
-    elm.addEventListener("change", function(e) {
+    elm.addEventListener("input", function(e) {
       // <- add a listener to every input
       const attribute = e.target.getAttribute("for"); // when any input changes, collect the value
       let values = {};
